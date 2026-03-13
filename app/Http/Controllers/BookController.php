@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -20,9 +20,12 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'request',
-            'name'=>'request',
+            'title'=>'required',
+            'slug'=>'required',
+            'author'=>'required',
+            'category_id'=>'required',
         ]);
+        return Book::create($request->all());
     }
 
     /**
@@ -30,7 +33,7 @@ class BookController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Book::findOrFail($id);
     }
 
     /**
@@ -38,7 +41,9 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $book = Book::findOrFail($id);
+        $book->update($request->all());
+        return $book; 
     }
 
     /**
@@ -47,7 +52,7 @@ class BookController extends Controller
     public function destroy(string $id)
     {
         Book::destroy($id);
-        return $response->json([
+        return response()->json([
         'message'=>'Book deleted'
         ]);
     }
