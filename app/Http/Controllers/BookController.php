@@ -11,7 +11,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        return Book::all();
     }
 
     /**
@@ -19,7 +19,10 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'request',
+            'name'=>'request',
+        ]);
     }
 
     /**
@@ -43,6 +46,9 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Book::destroy($id);
+        return $response->json([
+        'message'=>'Book deleted'
+        ]);
     }
 }
