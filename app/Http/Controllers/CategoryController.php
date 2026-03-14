@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+
 class CategoryController extends Controller
 {
     /**
@@ -19,11 +20,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name'=>'required',
-            'slug'=>'required',
+            'slug'=>'required'
         ]);
-        return Category::create($request->all());
+        return Category::create($validated);
     }
 
     /**
@@ -50,8 +51,8 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         Category::destroy($id);
-        return $response()->json([
-        'message'=>'category deleted'
+        return response()->json([
+            'message' => 'Category deleted'
         ]);
     }
 }
