@@ -46,6 +46,13 @@ class BookController extends Controller
         return $book; 
     }
 
+    public function search(Request $request){
+        $q = $request->q;
+        return Book::where('title' ,'like' ,"%$q%")
+                    ->orwhere('author' ,'like' ,"%$q%")
+                    ->get();
+                    }
+
     /**
      * Remove the specified resource from storage.
      */
