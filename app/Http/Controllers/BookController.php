@@ -59,11 +59,11 @@ class BookController extends Controller
                     ->get();
     }
 
-    // public function latest(){
-    //     return Book::orderby('category_id','desc')
-    //                 ->take(5)
-    //                 ->get();
-    // }
+    public function latest(){
+        return Book::orderby('category_id','desc')
+                    ->take(5)
+                    ->get();
+    }
     /**
      * Remove the specified resource from storage.
      */
