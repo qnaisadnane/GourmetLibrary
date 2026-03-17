@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/books/popular', [BookController::class,'popular']);
 Route::get('/books/search', [BookController::class,'search']);
 
 Route::apiResource('categories',CategoryController::class);
