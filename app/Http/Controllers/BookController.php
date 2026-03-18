@@ -48,21 +48,29 @@ class BookController extends Controller
 
     public function search(Request $request){
         $q = $request->q;
-        return Book::where('title' ,'like' ,"%$q%")
-                    ->orwhere('author' ,'like' ,"%$q%")
-                    ->get();
-                    }
-
-    public function popular(){
-        return Book::orderby('borrow_count','desc')
-                    ->take(5)
+        return Book::with('category')
+                    ->where('title' ,'like' ,"%$q%")
+                    ->orWhere('author' ,'like' ,"%$q%")
+                    ->orWhereHas('category', function($query) use ($q) {
+                        $query->where('name', 'like', "%$q%");
+                    })
                     ->get();
     }
 
-    public function latest(){
-        return Book::orderby('category_id','desc')
-                    ->take(5)
-                    ->get();
+    public function popular(Request $request){
+        $query = Book::with('category')->orderBy('borrow_count','desc');
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        return $query->take(5)->get();
+    }
+
+    public function latest(Request $request){
+        $query = Book::with('category')->orderBy('created_at','desc');
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        return $query->take(5)->get();
     }
     /**
      * Remove the specified resource from storage.
