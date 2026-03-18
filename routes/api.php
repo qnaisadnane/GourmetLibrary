@@ -16,8 +16,7 @@ Route::get('/books/search', [BookController::class, 'search']);
 Route::get('/categories/{id}/books', function ($id) {
     return Category::findOrFail($id)->books;
 });
-Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
-Route::apiResource('books', BookController::class)->only(['index', 'show']);
+
 
 // Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -29,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/admin/books/degraded', [\App\Http\Controllers\AdminController::class, 'degradedBooks']);
         Route::apiResource('categories', CategoryController::class)->except(['index', 'show']);
         Route::apiResource('books', BookController::class)->except(['index', 'show']);
-        Route::apiResource('borrows', BorrowController::class); // Assuming borrows might be managed by admin, or maybe they just need auth. Let's keep existing logic.
+        Route::apiResource('borrows', BorrowController::class); 
     });
 });
 
